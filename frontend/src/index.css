@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  
+  /* Modern premium SaaS color palette */
+  --color-slate-950: #030712;
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #7c3aed;
+  --color-violet-700: #6d28d9;
+  
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@layer base {
+  :root {
+    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+    color-scheme: light;
+  }
+  
+  :root.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    @apply bg-slate-50 text-slate-800 dark:bg-[#0b0f19] dark:text-slate-200 transition-colors duration-300 min-h-screen overflow-x-hidden;
+  }
+
+  /* Custom Premium Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300/60 dark:bg-slate-800/60 rounded-full hover:bg-slate-400 dark:hover:bg-slate-700 transition-colors;
+  }
+}
+
+/* Glassmorphism Premium Utilities */
+@utility glass-panel {
+  @apply bg-white/70 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/40;
+}
+
+@utility glass-card {
+  @apply bg-white/60 dark:bg-slate-900/40 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/30 shadow-sm hover:shadow-md dark:shadow-slate-950/20 transition-all duration-300;
+}
+
+@utility glass-card-interactive {
+  @apply bg-white/60 dark:bg-slate-900/40 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/30 shadow-sm hover:shadow-md dark:shadow-slate-950/20 transition-all duration-300 hover:bg-white/80 dark:hover:bg-slate-900/65 hover:border-violet-500/30 dark:hover:border-violet-500/20 hover:shadow-lg hover:shadow-violet-500/5 hover:-translate-y-0.5;
+}
+
+@utility glass-input {
+  @apply bg-slate-100/50 dark:bg-slate-950/30 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 outline-none transition-all duration-200 text-slate-800 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-950/60 focus:border-violet-500 dark:focus:border-violet-400 focus:ring-2 focus:ring-violet-500/20 dark:focus:ring-violet-400/20;
+}
+
+/* Dark mode overrides for specific layouts */
+.dark-gradient-bg {
+  background: radial-gradient(circle at 50% -20%, rgba(139, 92, 246, 0.15) 0%, rgba(3, 7, 18, 0) 70%);
+}
+
+.light-gradient-bg {
+  background: radial-gradient(circle at 50% -20%, rgba(139, 92, 246, 0.08) 0%, rgba(248, 250, 252, 0) 70%);
+}
+
+/* Loading animations */
+.skeleton-pulse {
+  background: linear-gradient(
+    90deg,
+    rgba(226, 232, 240, 0.3) 25%,
+    rgba(226, 232, 240, 0.6) 37%,
+    rgba(226, 232, 240, 0.3) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+}
+
+.dark .skeleton-pulse {
+  background: linear-gradient(
+    90deg,
+    rgba(30, 41, 59, 0.3) 25%,
+    rgba(30, 41, 59, 0.6) 37%,
+    rgba(30, 41, 59, 0.3) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
