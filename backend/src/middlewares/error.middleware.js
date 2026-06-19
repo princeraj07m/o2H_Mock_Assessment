@@ -16,6 +16,8 @@ export const errorHandler = (err, _req, res, _next) => {
                 : err.message;
     } else if (err.message === "Only image files are allowed") {
         statusCode = 400;
+    } else if (err.message === "Not allowed by CORS") {
+        statusCode = 403;
     }
 
     if (err.code === 11000) {

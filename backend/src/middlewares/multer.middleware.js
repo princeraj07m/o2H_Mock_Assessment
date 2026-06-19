@@ -1,8 +1,11 @@
 import fs from "fs";
+import os from "os";
 import path from "path";
 import multer from "multer";
 
-const tempDir = path.join(process.cwd(), "public", "temp");
+const tempDir = process.env.VERCEL
+    ? os.tmpdir()
+    : path.join(process.cwd(), "public", "temp");
 
 if (!fs.existsSync(tempDir)) {
     fs.mkdirSync(tempDir, { recursive: true });

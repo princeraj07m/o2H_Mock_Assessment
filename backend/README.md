@@ -108,6 +108,42 @@ Then start the frontend dev server.
 
 ---
 
+## Deploy to Vercel
+
+### Backend project (`backend/` as Root Directory)
+
+1. Create a Vercel project with **Root Directory** = `backend`
+2. Add these **Environment Variables** in Vercel dashboard:
+
+| Variable | Required |
+|----------|----------|
+| `MONGODB_URI` | Yes |
+| `ACCESS_TOKEN_SECRET` | Yes |
+| `ACCESS_TOKEN_EXPIRY` | Yes (e.g. `7d`) |
+| `CLOUDINARY_CLOUD_NAME` | Yes |
+| `CLOUDINARY_API_KEY` | Yes |
+| `CLOUDINARY_API_SECRET` | Yes |
+| `CORS_ORIGIN` | Optional (defaults allow Vercel domains) |
+
+3. Deploy — API will be available at `https://your-backend.vercel.app/api/health`
+
+### Frontend project (`frontend/` as Root Directory)
+
+1. Create a separate Vercel project with **Root Directory** = `frontend`
+2. Add build-time env var:
+
+```env
+VITE_API_BASE_URL=https://your-backend.vercel.app/api
+```
+
+3. Deploy — SPA routing is handled by `frontend/vercel.json`
+
+### MongoDB Atlas
+
+Allow network access from anywhere (`0.0.0.0/0`) so Vercel serverless functions can connect.
+
+---
+
 ## API Documentation
 
 Base URL: `http://localhost:8000/api`
