@@ -8,7 +8,13 @@ import { errorHandler, notFoundHandler } from "./middlewares/error.middleware.js
 
 const app = express();
 
-const corsOrigin = process.env.CORS_ORIGIN?.trim() || "http://localhost:5173";
+const corsOrigin = cors({
+  origin: [
+    "http://localhost:5173",
+    "https://o2-h-mock-assessment.vercel.app"
+  ],
+  credentials: true
+})
 const allowedOrigins =
     corsOrigin === "*"
         ? ["http://localhost:5173", "http://127.0.0.1:5173", "https://o2-h-mock-assessment.vercel.app"]
