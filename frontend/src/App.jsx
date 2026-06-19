@@ -20,7 +20,7 @@ function App() {
 
             {/* Premium Toast Alerts */}
             <ToastContainer
-              position="bottom-right"
+              position="bottom-center"
               autoClose={3000}
               hideProgressBar={false}
               newestOnTop
@@ -30,6 +30,8 @@ function App() {
               draggable
               pauseOnHover
               theme="colored"
+              className="!bottom-20 sm:!bottom-4"
+              toastClassName="!rounded-xl !text-sm"
             />
             
           </TaskProvider>

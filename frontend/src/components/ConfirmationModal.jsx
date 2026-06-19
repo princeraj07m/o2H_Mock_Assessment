@@ -38,12 +38,12 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, confirm
               </div>
             </div>
 
-            <div className="mt-6 flex justify-end gap-3 border-t border-slate-100 dark:border-slate-800/40 pt-4">
+            <div className="mt-6 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 border-t border-slate-100 dark:border-slate-800/40 pt-4">
               <button
                 type="button"
                 onClick={onClose}
                 disabled={loading}
-                className="px-4 py-2 text-sm font-medium rounded-xl border border-slate-250 dark:border-slate-800 text-slate-700 dark:text-slate-350 hover:bg-slate-50 dark:hover:bg-slate-800/50 outline-none transition-all disabled:opacity-50"
+                className="w-full sm:w-auto px-4 py-3 sm:py-2 text-sm font-medium rounded-xl border border-slate-250 dark:border-slate-800 text-slate-700 dark:text-slate-350 outline-none transition-all disabled:opacity-50 min-h-[48px] sm:min-h-0"
               >
                 Cancel
               </button>
@@ -51,7 +51,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, confirm
                 type="button"
                 onClick={onConfirm}
                 disabled={loading}
-                className="px-4 py-2 text-sm font-medium rounded-xl bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/15 outline-none hover:-translate-y-0.5 active:translate-y-0 transition-all duration-150 disabled:opacity-50"
+                className="w-full sm:w-auto px-4 py-3 sm:py-2 text-sm font-medium rounded-xl bg-red-500 hover:bg-red-600 active:bg-red-700 text-white shadow-lg shadow-red-500/15 outline-none transition-all disabled:opacity-50 min-h-[48px] sm:min-h-0"
               >
                 {loading ? 'Processing...' : confirmText}
               </button>

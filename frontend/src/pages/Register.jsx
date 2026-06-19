@@ -75,7 +75,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-slate-900 dark-gradient-bg relative px-4 py-12 overflow-hidden">
+    <div className="min-h-[100dvh] w-full flex items-center justify-center bg-slate-900 dark-gradient-bg relative px-4 py-8 sm:py-12 overflow-hidden pb-[env(safe-area-inset-bottom)]">
       <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-violet-600/20 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl" />
 

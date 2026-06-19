@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FiGrid, FiList, FiPlus, FiAlertCircle, FiChevronLeft, FiChevronRight, FiRefreshCw, FiSearch, FiSliders } from 'react-icons/fi';
+import { FiGrid, FiList, FiPlus, FiAlertCircle, FiChevronLeft, FiChevronRight, FiRefreshCw, FiSliders } from 'react-icons/fi';
 
 import { useTasks } from '../hooks/useTasks';
 import StatsCard from '../components/StatsCard';
@@ -19,8 +19,6 @@ const Dashboard = () => {
     pagination,
     loading,
     error,
-    search,
-    setSearch,
     status,
     setStatus,
     priority,
@@ -79,21 +77,21 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5 sm:space-y-8">
       {/* Welcome & Quick Action Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-800 dark:text-white">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        <div className="min-w-0">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-800 dark:text-white">
             Workspace Summary
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Analyze your progress metrics and update pending milestones.
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+            Track progress and manage your tasks.
           </p>
         </div>
 
         <button
           onClick={() => navigate('/add')}
-          className="flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-500 text-white px-5 py-3 rounded-2xl font-semibold shadow-lg shadow-violet-500/15 hover:-translate-y-0.5 active:translate-y-0 transition-all outline-none"
+          className="hidden sm:flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white px-5 py-3 rounded-2xl font-semibold shadow-lg shadow-violet-500/15 transition-all outline-none min-h-[48px]"
         >
           <FiPlus size={18} />
           <span>New Task</span>
@@ -108,73 +106,63 @@ const Dashboard = () => {
       )}
 
       {/* Task Filters & Control section */}
-      <div className="glass-panel p-5 rounded-2xl space-y-4 shadow-sm border border-slate-200/50 dark:border-slate-800/40">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          {/* Status Tabs */}
-          <div className="flex bg-slate-100/70 dark:bg-slate-950/40 p-1.5 rounded-xl border border-slate-200/30 dark:border-slate-850">
-            {statusOptions.map((opt) => (
-              <button
-                key={opt.value}
-                onClick={() => setStatus(opt.value)}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all outline-none ${
-                  status === opt.value
-                    ? 'bg-white dark:bg-slate-800 text-slate-800 dark:text-white shadow-sm'
-                    : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-250'
-                }`}
-              >
-                {opt.label}
-              </button>
-            ))}
+      <div className="glass-panel p-3 sm:p-5 rounded-2xl space-y-3 sm:space-y-4 shadow-sm border border-slate-200/50 dark:border-slate-800/40">
+        <div className="flex flex-col gap-3">
+          {/* Status Tabs — horizontal scroll on mobile */}
+          <div className="overflow-x-auto no-scrollbar scroll-snap-x -mx-1 px-1">
+            <div className="flex bg-slate-100/70 dark:bg-slate-950/40 p-1 rounded-xl border border-slate-200/30 dark:border-slate-850 min-w-max sm:min-w-0 sm:w-fit">
+              {statusOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => setStatus(opt.value)}
+                  className={`px-3 sm:px-3.5 py-2 sm:py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all outline-none whitespace-nowrap snap-start min-h-[40px] ${
+                    status === opt.value
+                      ? 'bg-white dark:bg-slate-800 text-slate-800 dark:text-white shadow-sm'
+                      : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-250 active:bg-white/50'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Action Row: Mobile Filters Toggle, Search, View Toggle */}
-          <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-            {/* Mobile Search input - Shows on small screens, syncs with Navbar search */}
-            <div className="relative md:hidden flex-1 max-w-[200px]">
-              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search..."
-                className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl glass-input"
-              />
-            </div>
-
-            {/* Filter Toggle Button */}
+          {/* Controls row */}
+          <div className="flex items-center gap-2 sm:gap-3 justify-between">
             <button
               onClick={() => setShowMobileFilters(!showMobileFilters)}
-              className={`p-2.5 rounded-xl border transition-all lg:flex items-center gap-1.5 text-xs font-semibold outline-none ${
+              className={`touch-target px-3 py-2 rounded-xl border transition-all flex items-center gap-1.5 text-xs font-semibold outline-none min-h-[44px] lg:hidden ${
                 showMobileFilters
                   ? 'bg-violet-500/10 text-violet-500 border-violet-500/20'
-                  : 'bg-slate-100 dark:bg-slate-800/60 text-slate-500 border-slate-250 dark:border-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'
+                  : 'bg-slate-100 dark:bg-slate-800/60 text-slate-500 border-slate-250 dark:border-slate-800'
               }`}
             >
               <FiSliders size={16} />
-              <span className="hidden sm:inline">Filters</span>
+              <span>Filters</span>
             </button>
 
-            {/* View Grid/List Toggle */}
             <div className="flex border border-slate-250 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-800/40 rounded-xl p-1">
               <button
                 onClick={() => viewType !== 'grid' && toggleViewType()}
-                className={`p-2 rounded-lg transition-colors outline-none ${
+                className={`touch-target p-2.5 rounded-lg transition-colors outline-none ${
                   viewType === 'grid'
                     ? 'bg-white dark:bg-slate-750 text-violet-500 shadow-sm'
-                    : 'text-slate-450 hover:text-slate-700 dark:hover:text-slate-200'
+                    : 'text-slate-450'
                 }`}
                 title="Grid view"
+                aria-label="Grid view"
               >
                 <FiGrid size={16} />
               </button>
               <button
                 onClick={() => viewType !== 'table' && toggleViewType()}
-                className={`p-2 rounded-lg transition-colors outline-none ${
+                className={`touch-target p-2.5 rounded-lg transition-colors outline-none hidden sm:flex ${
                   viewType === 'table'
                     ? 'bg-white dark:bg-slate-750 text-violet-500 shadow-sm'
-                    : 'text-slate-450 hover:text-slate-700 dark:hover:text-slate-200'
+                    : 'text-slate-450'
                 }`}
                 title="Table view"
+                aria-label="Table view"
               >
                 <FiList size={16} />
               </button>
@@ -182,57 +170,70 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Collapsible Filters: Priority & Sorting */}
-        <AnimatePresence>
+        {/* Desktop filters — always visible */}
+        <div className="hidden lg:grid grid-cols-3 gap-4 border-t border-slate-200/50 dark:border-slate-800/40 pt-4">
+          <div className="flex flex-col">
+            <label className="text-xs font-bold text-slate-400 uppercase mb-2">Priority</label>
+            <select value={priority} onChange={(e) => setPriority(e.target.value)} className="glass-input py-2.5 text-sm rounded-xl cursor-pointer min-h-[44px]">
+              <option value="all">All Priorities</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div className="flex flex-col">
+            <label className="text-xs font-bold text-slate-400 uppercase mb-2">Sort By</label>
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="glass-input py-2.5 text-sm rounded-xl cursor-pointer min-h-[44px]">
+              <option value="createdAt">Date Created</option>
+              <option value="dueDate">Due Date</option>
+              <option value="priority">Priority</option>
+            </select>
+          </div>
+          <div className="flex flex-col">
+            <label className="text-xs font-bold text-slate-400 uppercase mb-2">Direction</label>
+            <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} className="glass-input py-2.5 text-sm rounded-xl cursor-pointer min-h-[44px]">
+              <option value="desc">Newest first</option>
+              <option value="asc">Oldest first</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Mobile collapsible filters */}
+        <AnimatePresence initial={false}>
           {showMobileFilters && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="overflow-hidden border-t border-slate-200/50 dark:border-slate-800/40 pt-4"
+              className="overflow-hidden border-t border-slate-200/50 dark:border-slate-800/40 pt-3 lg:hidden"
             >
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {/* Priority Selection */}
+              <div className="grid grid-cols-1 gap-3">
                 <div className="flex flex-col">
-                  <label className="text-xs font-bold text-slate-400 uppercase mb-2">Priority</label>
-                  <select
-                    value={priority}
-                    onChange={(e) => setPriority(e.target.value)}
-                    className="glass-input py-2 text-xs rounded-xl cursor-pointer"
-                  >
+                  <label className="text-xs font-bold text-slate-400 uppercase mb-1.5">Priority</label>
+                  <select value={priority} onChange={(e) => setPriority(e.target.value)} className="glass-input py-3 text-sm rounded-xl min-h-[48px]">
                     <option value="all">All Priorities</option>
                     <option value="high">High</option>
                     <option value="medium">Medium</option>
                     <option value="low">Low</option>
                   </select>
                 </div>
-
-                {/* Sort By Field */}
-                <div className="flex flex-col">
-                  <label className="text-xs font-bold text-slate-400 uppercase mb-2">Sort By</label>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="glass-input py-2 text-xs rounded-xl cursor-pointer"
-                  >
-                    <option value="createdAt">Date Created</option>
-                    <option value="dueDate">Due Date</option>
-                    <option value="priority">Priority Rank</option>
-                  </select>
-                </div>
-
-                {/* Sort Direction */}
-                <div className="flex flex-col">
-                  <label className="text-xs font-bold text-slate-400 uppercase mb-2">Direction</label>
-                  <select
-                    value={sortOrder}
-                    onChange={(e) => setSortOrder(e.target.value)}
-                    className="glass-input py-2 text-xs rounded-xl cursor-pointer"
-                  >
-                    <option value="desc">Descending</option>
-                    <option value="asc">Ascending</option>
-                  </select>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="flex flex-col">
+                    <label className="text-xs font-bold text-slate-400 uppercase mb-1.5">Sort By</label>
+                    <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="glass-input py-3 text-sm rounded-xl min-h-[48px]">
+                      <option value="createdAt">Created</option>
+                      <option value="dueDate">Due Date</option>
+                      <option value="priority">Priority</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-xs font-bold text-slate-400 uppercase mb-1.5">Order</label>
+                    <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} className="glass-input py-3 text-sm rounded-xl min-h-[48px]">
+                      <option value="desc">Desc</option>
+                      <option value="asc">Asc</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -318,7 +319,7 @@ const Dashboard = () => {
             {viewType === 'grid' ? (
               <motion.div
                 layout
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6"
               >
                 {tasks.map((task) => (
                   <TaskCard
@@ -342,50 +343,65 @@ const Dashboard = () => {
 
       {/* Pagination Bar */}
       {!loading && tasks.length > 0 && pagination.totalPages > 1 && (
-        <div className="flex items-center justify-between border-t border-slate-200/50 dark:border-slate-800/40 pt-6">
-          <div className="text-xs font-semibold text-slate-450 dark:text-slate-500">
-            Showing <span className="text-slate-700 dark:text-slate-300">{(page - 1) * pagination.limit + 1}</span> to{' '}
-            <span className="text-slate-700 dark:text-slate-300">
-              {Math.min(page * pagination.limit, pagination.totalTasks)}
-            </span>{' '}
-            of <span className="text-slate-700 dark:text-slate-300">{pagination.totalTasks}</span> entries
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-200/50 dark:border-slate-800/40 pt-5">
+          <div className="text-xs font-semibold text-slate-450 dark:text-slate-500 order-2 sm:order-1">
+            Page <span className="text-slate-700 dark:text-slate-300">{page}</span> of{' '}
+            <span className="text-slate-700 dark:text-slate-300">{pagination.totalPages}</span>
+            <span className="hidden sm:inline">
+              {' '}· {(page - 1) * pagination.limit + 1}–
+              {Math.min(page * pagination.limit, pagination.totalTasks)} of {pagination.totalTasks}
+            </span>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto justify-center">
             <button
               disabled={page === 1}
               onClick={() => setPage((p) => Math.max(p - 1, 1))}
-              className="p-2 rounded-lg border border-slate-250 dark:border-slate-800 text-slate-500 dark:text-slate-450 hover:bg-slate-100 dark:hover:bg-slate-850 disabled:opacity-40 outline-none transition-colors duration-150"
+              aria-label="Previous page"
+              className="touch-target flex-1 sm:flex-none px-4 py-2.5 rounded-xl border border-slate-250 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-850 disabled:opacity-40 outline-none transition-colors text-sm font-medium flex items-center justify-center gap-1"
             >
               <FiChevronLeft size={16} />
+              <span className="sm:hidden">Prev</span>
             </button>
 
-            {Array.from({ length: pagination.totalPages }).map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setPage(idx + 1)}
-                className={`h-8 w-8 rounded-lg text-xs font-semibold tracking-wide border transition-all duration-150 outline-none ${
-                  page === idx + 1
-                    ? 'bg-violet-500 text-white border-violet-500 shadow-md shadow-violet-500/10'
-                    : 'border-slate-250 dark:border-slate-800 text-slate-500 dark:text-slate-450 hover:bg-slate-100 dark:hover:bg-slate-850'
-                }`}
-              >
-                {idx + 1}
-              </button>
-            ))}
+            <div className="hidden sm:flex gap-1.5">
+              {Array.from({ length: pagination.totalPages }).map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setPage(idx + 1)}
+                  className={`h-9 w-9 rounded-lg text-xs font-semibold border transition-all outline-none ${
+                    page === idx + 1
+                      ? 'bg-violet-500 text-white border-violet-500'
+                      : 'border-slate-250 dark:border-slate-800 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-850'
+                  }`}
+                >
+                  {idx + 1}
+                </button>
+              ))}
+            </div>
 
             <button
               disabled={page === pagination.totalPages}
               onClick={() => setPage((p) => Math.min(p + 1, pagination.totalPages))}
-              className="p-2 rounded-lg border border-slate-250 dark:border-slate-800 text-slate-500 dark:text-slate-450 hover:bg-slate-100 dark:hover:bg-slate-850 disabled:opacity-40 outline-none transition-colors duration-150"
+              aria-label="Next page"
+              className="touch-target flex-1 sm:flex-none px-4 py-2.5 rounded-xl border border-slate-250 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-850 disabled:opacity-40 outline-none transition-colors text-sm font-medium flex items-center justify-center gap-1"
             >
+              <span className="sm:hidden">Next</span>
               <FiChevronRight size={16} />
             </button>
           </div>
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
+      {/* Mobile FAB — quick add task */}
+      <button
+        onClick={() => navigate('/add')}
+        aria-label="Create new task"
+        className="sm:hidden fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] right-4 z-20 h-14 w-14 rounded-full bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white shadow-xl shadow-violet-600/30 flex items-center justify-center outline-none transition-transform active:scale-95"
+      >
+        <FiPlus size={24} />
+      </button>
+
       <ConfirmationModal
         isOpen={deleteId !== null}
         onClose={() => setDeleteId(null)}

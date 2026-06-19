@@ -41,7 +41,7 @@ const TaskCard = ({ task, onToggleComplete, onDelete }) => {
   return (
     <motion.div
       layout
-      className="glass-card-interactive flex flex-col justify-between p-6 rounded-2xl h-full relative"
+      className="glass-card-interactive flex flex-col justify-between p-4 sm:p-6 rounded-2xl h-full relative active:scale-[0.99] transition-transform"
     >
       <div>
         {/* Header: Priority & Status Badges */}
@@ -71,23 +71,20 @@ const TaskCard = ({ task, onToggleComplete, onDelete }) => {
       </div>
 
       {/* Footer: Date & Actions */}
-      <div className="flex justify-between items-center mt-auto border-t border-slate-200/50 dark:border-slate-800/40 pt-4">
-        {/* Due Date Indicator */}
-        <div className={`flex items-center gap-1.5 text-xs ${
+      <div className="flex justify-between items-center mt-auto border-t border-slate-200/50 dark:border-slate-800/40 pt-3 sm:pt-4 gap-2">
+        <div className={`flex items-center gap-1.5 text-xs min-w-0 ${
           isOverdue ? 'text-red-500 dark:text-red-400 font-semibold' : 'text-slate-400 dark:text-slate-500'
         }`}>
-          <FiCalendar size={14} />
-          <span>{formatDate(task.dueDate)}</span>
-          {isOverdue && <span className="text-[10px] uppercase font-bold tracking-tight bg-red-500/10 px-1.5 py-0.5 rounded">Overdue</span>}
+          <FiCalendar size={14} className="shrink-0" />
+          <span className="truncate">{formatDate(task.dueDate)}</span>
+          {isOverdue && <span className="text-[10px] uppercase font-bold tracking-tight bg-red-500/10 px-1.5 py-0.5 rounded shrink-0">Late</span>}
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-2">
-          {/* Toggle Completion */}
+        <div className="flex gap-1.5 sm:gap-2 shrink-0">
           <button
             onClick={() => onToggleComplete(task)}
-            title={task.status === 'completed' ? 'Mark Pending' : 'Mark Completed'}
-            className={`p-2 rounded-xl border transition-all duration-200 outline-none ${
+            aria-label={task.status === 'completed' ? 'Mark pending' : 'Mark completed'}
+            className={`touch-target p-2.5 rounded-xl border transition-all outline-none ${
               task.status === 'completed'
                 ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/20'
                 : 'bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-850 hover:bg-slate-200 dark:hover:bg-slate-700/60 hover:text-slate-700 dark:hover:text-white'
@@ -96,22 +93,20 @@ const TaskCard = ({ task, onToggleComplete, onDelete }) => {
             {task.status === 'completed' ? <FiRefreshCw size={14} /> : <FiCheck size={14} />}
           </button>
 
-          {/* Edit Task */}
           <button
             onClick={() => navigate(`/edit/${task.id}`)}
-            title="Edit Task"
-            className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-850 hover:bg-slate-200 dark:hover:bg-slate-700/60 hover:text-slate-700 dark:hover:text-white transition-all duration-200 outline-none"
+            aria-label="Edit task"
+            className="touch-target p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-850 hover:bg-slate-200 dark:hover:bg-slate-700/60 transition-all outline-none"
           >
-            <FiEdit2 size={14} />
+            <FiEdit2 size={16} />
           </button>
 
-          {/* Delete Task */}
           <button
             onClick={() => onDelete(task.id)}
-            title="Delete Task"
-            className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800/60 text-red-500/80 hover:text-red-500 dark:text-red-400 border border-slate-200 dark:border-slate-850 hover:bg-red-500/10 dark:hover:bg-red-500/20 transition-all duration-200 outline-none"
+            aria-label="Delete task"
+            className="touch-target p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/60 text-red-500/80 dark:text-red-400 border border-slate-200 dark:border-slate-850 hover:bg-red-500/10 transition-all outline-none"
           >
-            <FiTrash2 size={14} />
+            <FiTrash2 size={16} />
           </button>
         </div>
       </div>

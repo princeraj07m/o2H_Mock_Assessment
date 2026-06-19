@@ -47,7 +47,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-slate-900 dark-gradient-bg relative px-4 py-12 overflow-hidden">
+    <div className="min-h-[100dvh] w-full flex items-center justify-center bg-slate-900 dark-gradient-bg relative px-4 py-8 sm:py-12 overflow-hidden pb-[env(safe-area-inset-bottom)]">
       {/* Background Orbs */}
       <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-violet-600/20 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl" />
@@ -78,7 +78,7 @@ const Login = () => {
         </div>
 
         {/* Card */}
-        <div className="glass-panel rounded-3xl p-8 border border-white/10 shadow-2xl relative bg-slate-950/20">
+        <div className="glass-panel rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl relative bg-slate-950/20">
           <h3 className="text-xl font-bold text-white mb-6 text-center">
             Sign In
           </h3>
@@ -131,7 +131,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white rounded-2xl font-semibold shadow-lg shadow-violet-600/20 hover:-translate-y-0.5 active:translate-y-0 transition-all outline-none"
+              className="w-full py-3.5 sm:py-3.5 bg-violet-600 hover:bg-violet-500 active:bg-violet-700 disabled:opacity-50 text-white rounded-2xl font-semibold shadow-lg shadow-violet-600/20 transition-all outline-none min-h-[48px]"
             >
               {loading ? 'Signing In...' : 'Sign In'}
             </button>

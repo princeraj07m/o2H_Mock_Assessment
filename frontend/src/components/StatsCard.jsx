@@ -39,7 +39,7 @@ const StatsCard = ({ stats }) => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
       {cards.map((card, index) => {
         const Icon = card.icon;
         return (
@@ -49,18 +49,18 @@ const StatsCard = ({ stats }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: index * 0.08 }}
             whileHover={{ y: -3 }}
-            className={`glass-panel border bg-gradient-to-br ${card.color} p-5 rounded-2xl flex items-center justify-between shadow-lg ${card.glow}`}
+            className={`glass-panel border bg-gradient-to-br ${card.color} p-4 sm:p-5 rounded-2xl flex items-center justify-between shadow-lg ${card.glow}`}
           >
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <div className="min-w-0">
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 truncate">
                 {card.title}
               </p>
-              <h3 className="text-3xl font-bold tracking-tight text-slate-800 dark:text-white mt-1">
+              <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-800 dark:text-white mt-0.5 sm:mt-1">
                 {card.value}
               </h3>
             </div>
-            <div className={`p-3.5 rounded-xl ${card.iconBg}`}>
-              <Icon size={24} />
+            <div className={`p-2.5 sm:p-3.5 rounded-xl shrink-0 ${card.iconBg}`}>
+              <Icon size={22} className="sm:w-6 sm:h-6" />
             </div>
           </motion.div>
         );

@@ -99,7 +99,7 @@ const Profile = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.3 }}
-      className="max-w-4xl mx-auto space-y-6"
+      className="max-w-4xl mx-auto space-y-5 sm:space-y-6 pb-24 sm:pb-0"
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-6 md:col-span-1">

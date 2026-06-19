@@ -19,26 +19,25 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   ];
 
   const sidebarClasses = `
-    fixed inset-y-0 left-0 z-40 w-64 glass-panel border-r border-slate-200/50 dark:border-slate-800/40 p-5 flex flex-col justify-between
-    transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-[calc(100vh-2rem)] lg:my-4 lg:ml-4 lg:rounded-2xl
+    fixed inset-y-0 left-0 z-40 w-[min(85vw,280px)] glass-panel border-r border-slate-200/50 dark:border-slate-800/40 p-4 sm:p-5 flex flex-col justify-between
+    transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:w-64 lg:h-[calc(100dvh-2rem)] lg:my-4 lg:ml-4 lg:rounded-2xl
+    pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))]
     ${isOpen ? 'translate-x-0' : '-translate-x-full'}
   `;
 
   return (
     <>
-      {/* Mobile Backdrop */}
       {isOpen && (
         <div
           onClick={toggleSidebar}
-          className="fixed inset-0 z-35 bg-slate-900/45 dark:bg-slate-950/65 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-35 bg-slate-900/50 dark:bg-slate-950/70 backdrop-blur-sm lg:hidden"
+          aria-hidden="true"
         />
       )}
 
       <aside className={sidebarClasses}>
-        {/* Top Section */}
         <div>
-          {/* Logo / Header */}
-          <div className="flex justify-between items-center mb-8 px-2">
+          <div className="flex justify-between items-center mb-6 sm:mb-8 px-1">
             <div className="flex items-center gap-2.5">
               <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-violet-500/20">
                 <FiCheckSquare size={20} />
@@ -47,17 +46,16 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 Taskly.io
               </span>
             </div>
-            {/* Mobile Close Button */}
             <button
               onClick={toggleSidebar}
-              className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/60 text-slate-500 hover:text-slate-855 lg:hidden outline-none"
+              aria-label="Close menu"
+              className="touch-target p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/60 text-slate-500 lg:hidden outline-none"
             >
               <FiX size={20} />
             </button>
           </div>
 
-          {/* Nav Links */}
-          <nav className="space-y-1.5">
+          <nav className="space-y-1">
             {navLinks.map((link) => {
               const Icon = link.icon;
               return (
@@ -65,14 +63,13 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                   key={link.name}
                   to={link.path}
                   onClick={() => isOpen && toggleSidebar()}
-                  className={({ isActive }) => `
-                    flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 outline-none
-                    ${
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all duration-200 outline-none min-h-[48px] ${
                       isActive
                         ? 'bg-violet-500 text-white shadow-lg shadow-violet-500/15'
-                        : 'text-slate-500 dark:text-slate-400 hover:bg-slate-150/50 dark:hover:bg-slate-800/40 hover:text-slate-800 dark:hover:text-white'
-                    }
-                  `}
+                        : 'text-slate-500 dark:text-slate-400 hover:bg-slate-150/50 dark:hover:bg-slate-800/40 hover:text-slate-800 dark:hover:text-white active:scale-[0.98]'
+                    }`
+                  }
                 >
                   <Icon size={18} />
                   <span>{link.name}</span>
@@ -82,14 +79,13 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           </nav>
         </div>
 
-        {/* Bottom Section: Profile summary & Logout */}
-        <div className="space-y-4 border-t border-slate-200/50 dark:border-slate-800/40 pt-4">
+        <div className="space-y-3 border-t border-slate-200/50 dark:border-slate-800/40 pt-4">
           {user && (
-            <div className="flex items-center gap-3 px-2">
+            <div className="flex items-center gap-3 px-2 py-1">
               <img
                 src={user.avatar}
                 alt={user.name}
-                className="h-10 w-10 rounded-full border border-violet-500/20 bg-slate-100 object-cover"
+                className="h-10 w-10 rounded-full border border-violet-500/20 bg-slate-100 object-cover shrink-0"
                 onError={(e) => {
                   e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`;
                 }}
@@ -107,7 +103,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-500/10 transition-all outline-none"
+            className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl text-sm font-medium text-red-500 hover:bg-red-500/10 active:bg-red-500/15 transition-all outline-none min-h-[48px]"
           >
             <FiLogOut size={18} />
             <span>Logout</span>
