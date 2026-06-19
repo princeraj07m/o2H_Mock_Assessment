@@ -11,7 +11,7 @@ const app = express();
 const corsOrigin = process.env.CORS_ORIGIN?.trim() || "http://localhost:5173";
 const allowedOrigins =
     corsOrigin === "*"
-        ? ["http://localhost:5173", "http://127.0.0.1:5173"]
+        ? ["http://localhost:5173", "http://127.0.0.1:5173", "https://o2-h-mock-assessment.vercel.app"]
         : corsOrigin.split(",").map((origin) => origin.trim());
 
 app.use(
