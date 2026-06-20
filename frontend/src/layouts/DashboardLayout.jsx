@@ -5,11 +5,8 @@ import Navbar from '../components/Navbar';
 import MobileBottomNav from '../components/MobileBottomNav';
 import Loader from '../components/Loader';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
-
 const DashboardLayout = () => {
   const { isAuthenticated, loading } = useAuth();
-  const { theme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
@@ -23,11 +20,7 @@ const DashboardLayout = () => {
   }
 
   return (
-    <div
-      className={`min-h-screen flex flex-col lg:flex-row bg-slate-50 dark:bg-[#0b0f19] ${
-        theme === 'dark' ? 'dark-gradient-bg' : 'light-gradient-bg'
-      }`}
-    >
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#0b0f19] dark-gradient-bg">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
       <div className="flex-1 flex flex-col min-w-0 h-[100dvh] overflow-hidden">

@@ -29,7 +29,7 @@ function App() {
               pauseOnFocusLoss
               draggable
               pauseOnHover
-              theme="colored"
+              theme="dark"
               className="!bottom-20 sm:!bottom-4"
               toastClassName="!rounded-xl !text-sm"
             />

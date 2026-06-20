@@ -15,17 +15,13 @@
 @layer base {
   :root {
     --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-    color-scheme: light;
-  }
-  
-  :root.dark {
     color-scheme: dark;
   }
 
   body {
     margin: 0;
     font-family: var(--font-sans);
-    @apply bg-slate-50 text-slate-800 dark:bg-[#0b0f19] dark:text-slate-200 transition-colors duration-300 min-h-screen overflow-x-hidden;
+    @apply bg-[#0b0f19] text-slate-200 min-h-screen overflow-x-hidden;
     -webkit-tap-highlight-color: transparent;
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
